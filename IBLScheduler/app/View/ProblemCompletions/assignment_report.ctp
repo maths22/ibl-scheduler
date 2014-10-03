@@ -1,5 +1,5 @@
 <div class="problemCompletions index">
-    <h2><?php echo __('Presentation readiness for <br/>' . $assignment['Assignment']['name']) . ' due ' . $this->Time->format($assignment['Assignment']['date'], '%B %e, %Y'); ?></h2>
+    <h2><?php debug($assignment); echo __('Presentation readiness for <br/>' . $assignment['Assignment']['name']) . ' due ' . $this->Time->format($assignment['Assignment']['date'], '%B %e, %Y'); ?></h2>
     <h3>Section <?php echo AuthComponent::user('section'); ?>: <?php echo $total; ?> student<?= $total == 1 ? '' : 's' ?> responded</h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
@@ -25,8 +25,11 @@
 <div class="actions">
     <h3><?php echo __('Actions'); ?></h3>
     <ul>
+        <?php if($assignment['Assignment']['published']):?>
         <li><?php echo $this->Html->link(__('Printable Report'), array('action' => 'assignment_report', $id . ".pdf")); ?></li>
-        <!--<li><?php //echo $this->Html->link(__('Edit Assignment'), array('controller' => 'assignments', 'action' => 'edit', $assignment['Assignment']['id'])); ?></li>-->
+        <?php else: ?>
+        <li><?php echo $this->Html->link(__('Edit Assignment'), array('controller' => 'assignments', 'action' => 'edit', $assignment['Assignment']['id'])); ?></li>
+        <?php endif; ?>
         <li><?php echo $this->Html->link(__('Return to Assignment List'), array('controller' => 'home', 'action' => 'select')); ?></li>
     </ul>
 </div>

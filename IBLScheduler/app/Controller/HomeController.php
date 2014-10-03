@@ -37,7 +37,7 @@ class HomeController extends AppController {
     }
 
     public function student() {
-        $assignments = $this->Assignment->find('all', array('conditions' => array('section' => $this->Auth->user('section'))));
+        $assignments = $this->Assignment->find('all', array('conditions' => array('published'=>true,'section' => $this->Auth->user('section'))));
         $this->set('assignments', $assignments);
     }
 

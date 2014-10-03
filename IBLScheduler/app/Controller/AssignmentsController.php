@@ -91,14 +91,26 @@ class AssignmentsController extends AppController {
         }
         if ($this->request->is(array('post', 'put'))) {
             if ($this->Assignment->save($this->request->data)) {
+                $list = $this->Assignment->Problem->find('list',array('conditions'=>array('assignment_id'=>$id)));
+                foreach ($list as $key => $value){
+                    $this->Assignment->Problem->delete($key);
+                }
+                foreach (explode(';', $this->request->data['Assignment']['problems']) as $name) {
+                    $this->Assignment->Problem->create();
+                    $problem = array('Problem' => array('assignment_id' => $this->Assignment->id, 'name' => trim($name)));
+                    $this->Assignment->Problem->save($problem);
+                }
                 $this->Session->setFlash(__('The assignment has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(array('controller' => 'home', 'action' => 'select'));
             } else {
                 $this->Session->setFlash(__('The assignment could not be saved. Please, try again.'));
             }
         } else {
             $options = array('conditions' => array('Assignment.' . $this->Assignment->primaryKey => $id));
             $this->request->data = $this->Assignment->find('first', $options);
+            $list = $this->Assignment->Problem->find('list',array('conditions'=>array('assignment_id'=>$id)));
+            $problems=implode(";\r\n",$list);
+            $this->set('problems',$problems);
         }
     }
 
