@@ -89,9 +89,9 @@ class ProblemCompletionsController extends AppController {
         foreach ($assignment['Problem'] as $problem) {
             $total = $this->ProblemCompletion->find('count', array('conditions' => array('problem_id' => $problem['id'], 'assignment_id' => $problem['assignment_id'])));
             $this->ProblemCompletion->recursive = 1;
-            $yeses = $this->ProblemCompletion->find('all', array('conditions' => array('readiness' => 'yes', 'problem_id' => $problem['id'], 'assignment_id' => $problem['assignment_id'])));
-            $maybes = $this->ProblemCompletion->find('all', array('conditions' => array('readiness' => 'maybe', 'problem_id' => $problem['id'], 'assignment_id' => $problem['assignment_id'])));
-            $noes = $this->ProblemCompletion->find('all', array('conditions' => array('readiness' => 'no', 'problem_id' => $problem['id'], 'assignment_id' => $problem['assignment_id'])));
+            $yeses = $this->ProblemCompletion->find('all', array('order'=>'RAND()', 'conditions' => array('readiness' => 'yes', 'problem_id' => $problem['id'], 'assignment_id' => $problem['assignment_id'])));
+            $maybes = $this->ProblemCompletion->find('all', array('order'=>'RAND()', 'conditions' => array('readiness' => 'maybe', 'problem_id' => $problem['id'], 'assignment_id' => $problem['assignment_id'])));
+            $noes = $this->ProblemCompletion->find('all', array('order'=>'RAND()', 'conditions' => array('readiness' => 'no', 'problem_id' => $problem['id'], 'assignment_id' => $problem['assignment_id'])));
             $yes_str = "";
             foreach ($yeses as $yes) {
                 $yes_str .= $yes['User']['name'] . '; ';

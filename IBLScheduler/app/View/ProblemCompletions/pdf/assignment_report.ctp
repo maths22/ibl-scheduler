@@ -20,3 +20,5 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<br/>
+<h4>Report generated at <?php echo $this->Time->format('now',"%c")?></h4>
